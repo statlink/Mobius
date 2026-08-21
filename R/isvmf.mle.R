@@ -1,0 +1,65 @@
+isvmf.mle <- function(y, maxit = 1000, tol = 1e-6) {
+
+  dm <- dim(y)
+  n <- dm[1]  ;  d <- dm[2] - 1
+  nu <- 0.5 * (d - 1)
+
+  logbesselI <- function(kappa, nu)  log(besselI(kappa, nu, expon.scaled = TRUE)) + kappa
+
+  nll <- function(par, mu, y, d, n, nu) {
+    kappa <- exp(par[1])
+    a <- exp(par[2])
+
+    s <- drop(y %*% mu)
+    B <- 1 - (1 - a^2) * s^2
+    log_c_vmf <- nu * log(kappa) - logbesselI(kappa, nu) - 0.5 * (d + 1) * log(2 * pi)
+
+    log_lik <- n * log_c_vmf + n * log(a) - 0.5 * (d + 1) * sum( log(B) ) +
+      kappa * a * sum( s / sqrt(B) )
+    - log_lik
+  }
+
+  loglik <- function(mu, kappa, a, y, d, n, nu)  - nll( c(log(kappa), log(a)), mu, y, d, n, nu )
+
+  mu <- Rfast::colmeans(y)
+  mu <- mu / sqrt( sum(mu^2) )
+  kappa <- 1
+  a <- 1
+
+  opt <- optim( c(log(kappa), log(a)), nll, mu = mu, y = y, d = d, n = n, nu = nu,
+                control = list(maxit = 5000) )
+
+  kappa <- exp(opt$par[1])
+  a <- exp(opt$par[2])
+  lik2 <-  - opt$value
+
+  for ( it in 1:maxit ) {
+    lik1 <- lik2
+    mu <- .update_mu(mu, kappa, a, y, d, n)
+    opt <- optim( c(log(kappa), log(a)), nll, mu = mu, y = y, d = d, n = n, nu = nu, control = list(maxit = 5000) )
+    kappa <- exp(opt$par[1])  ;  a <- exp(opt$par[2])
+    lik2 <-  - opt$value
+    if ( abs(lik2 - lik1) < tol )  break
+  }
+
+  list(mu = mu, kappa = kappa, alpha = a, loglik = lik2, iters = it)
+}
+
+
+
+.update_mu <- function(mu, kappa, a, y, d, n) {
+  s <- drop(y %*% mu)
+  B <- 1 - (1 - a^2) * s^2
+  v <- kappa * a / B^1.5 + (d + 1) * (1 - a^2) * s / B
+  g <- Rfast::eachcol.apply(y, v, oper = "*")
+  g <- g - sum(g * mu) * mu
+  ll0 <- loglik(mu, kappa, a, y, d, n, nu)
+  step <- 1 / max(abs(v))
+  repeat {
+    mu_new <- mu + step * g
+    mu_new <- mu_new / sqrt( sum(mu_new^2) )
+    if ( loglik(mu_new, kappa, a, y, d, n, nu) > ll0 || step < 1e-10 )  break
+    step <- step / 2
+  }
+  mu_new
+}

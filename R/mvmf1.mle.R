@@ -1,0 +1,63 @@
+mvmf1.mle <- function(y, maxit = 1000, tol = 1e-6) {
+
+  dm <- dim(y)
+  n <- dm[1]  ;  d <- dm[2] - 1
+  nu <- 0.5 * (d - 1)
+  ty <- t(y)
+
+  logbesselI <- function(kappa, nu)  log(besselI(kappa, nu, expon.scaled = TRUE)) + kappa
+
+  nll <- function(par, mu, y, ty, d, n, nu) {
+    kappa <- exp(par[1])
+    rho <- 2 * plogis(par[2]) - 1  # transforms to (-1, 1)
+    if ( abs(rho) >= 1 )  return(1e10)
+
+    phi <- rho * mu
+    phi_norm2 <- rho^2
+    log_c_vmf <- nu * log(kappa) - logbesselI(kappa, nu) - 0.5 * (d + 1) * log(2 * pi)
+    con <- n * log_c_vmf + n * d * log(1 - rho^2)
+
+    denom <- Rfast::colsums( ( ty - phi )^2 )
+    y_minv <- t( (1 - phi_norm2) / denom * t( ty - phi) ) - phi
+    log_lik <- con + kappa * sum( y_minv * mu ) - d * sum( log(1 + rho^2 - 2 * rho * Rfast::eachcol.apply(ty, mu) ) )
+    - log_lik
+  }
+
+  mu <- Rfast::colmeans(y)
+  mu <- mu / sqrt( sum(mu^2) )
+  kappa <- 1
+  rho <- 0.5
+
+  opt <- optim( c(log(kappa), qlogis((rho + 1) / 2)), nll, mu = mu, y = y, ty = ty, d = d, n = n, nu = nu,
+                control = list(maxit = 5000) )
+
+  kappa <- exp(opt$par[1])
+  rho <- 2 * plogis(opt$par[2]) - 1
+  lik2 <-  - opt$value
+
+  for ( it in 1:maxit ) {
+    lik1 <- lik2
+
+    ti <- drop(y %*% mu)
+    down <- 1 + rho^2 - 2 * rho * ti
+    w <- 1 / down
+    Ssum <- n + (1 - rho^2) * sum(w)
+
+    # Update mu
+    Swy <- Rfast::eachcol.apply(y, w, oper = "*")
+    Swy2 <- Rfast::eachcol.apply(y, w^2 * (ti - rho), oper = "*")
+    mu <- ( kappa * (1 - rho^2) + 2 * d * rho ) * Swy +
+      2 * kappa * rho * (1 - rho^2) * Swy2 - 2 * kappa * rho * Ssum * mu
+    mu <- mu / sqrt( sum(mu^2) )
+
+    opt <- optim( c(log(kappa), qlogis((rho + 1) / 2)), nll, mu = mu, y = y, ty = ty, d = d, n = n, nu = nu,
+                  control = list(maxit = 5000) )
+    kappa <- exp(opt$par[1])
+    rho <- 2 * plogis(opt$par[2]) - 1
+    lik2 <-  - opt$value
+
+    if ( abs(lik2 - lik1) < tol )  break
+  }
+
+  list(mu = mu, kappa = kappa, rho = rho, loglik = lik2, iters = it)
+}

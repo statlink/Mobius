@@ -1,0 +1,8 @@
+#useDynLib(MXM, .registration = TRUE)
+
+importFrom("Directional", rvmf)
+importFrom("Rfast", colsums, colmeans, eachcol.apply, rowsums)
+importFrom("stats", optim, plogis, qlogis)
+
+exportPattern("^[[:alpha:]]+")
+exportPattern("^[^\\.]")
