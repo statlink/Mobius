@@ -1,26 +1,27 @@
 {
-    "id": "E3D33C83",
-    "path": "~/GitHub/Mobius/R/isvmf.mle.R",
-    "project_path": "R/isvmf.mle.R",
+    "id": "C9B6DE0C",
+    "path": "~/GitHub/Mobius/R/mvmf.contour.R",
+    "project_path": "R/mvmf.contour.R",
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1787336965665.0,
+    "created": 1787337015102.0,
     "source_on_save": false,
-    "relative_order": 1,
+    "relative_order": 3,
     "properties": {
+        "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "24,11",
-        "scrollLine": "19"
+        "cursorPosition": "48,68",
+        "scrollLine": "33"
     },
     "folds": "",
-    "lastKnownWriteTime": 1787336836,
+    "lastKnownWriteTime": 1787337661,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1787336836,
+    "last_content_update": 1787337661722,
     "read_only": false,
     "read_only_alternatives": []
 }
