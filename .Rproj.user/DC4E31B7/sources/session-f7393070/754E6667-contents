@@ -4,7 +4,7 @@ importFrom("Directional", rvmf, euclid.inv, euclid)
 importFrom("grDevices", contourLines)
 importFrom("Rfast", colsums, colmeans, eachcol.apply, rowsums)
 importFrom("rgl", open3d, persp3d, contourLines3d, points3d)
-importFrom("stats", optim, plogis, qlogis)
+importFrom("stats", optim, plogis, qlogis, quantile)
 
 exportPattern("^[[:alpha:]]+")
 exportPattern("^[^\\.]")
