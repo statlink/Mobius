@@ -1,26 +1,26 @@
 {
-    "id": "081A688D",
-    "path": "~/GitHub/Mobius/DESCRIPTION",
-    "project_path": "DESCRIPTION",
-    "type": "dcf",
+    "id": "52E9F6BF",
+    "path": "~/GitHub/Mobius/R/mvmf.mle.R",
+    "project_path": "R/mvmf.mle.R",
+    "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1787386535439.0,
+    "created": 1787389359123.0,
     "source_on_save": false,
-    "relative_order": 1,
+    "relative_order": 2,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "11,378",
-        "scrollLine": "0"
+        "cursorPosition": "88,24",
+        "scrollLine": "74"
     },
     "folds": "",
-    "lastKnownWriteTime": 1787386538,
+    "lastKnownWriteTime": 1787389665,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1787386538520,
+    "last_content_update": 1787389665815,
     "read_only": false,
     "read_only_alternatives": []
 }
