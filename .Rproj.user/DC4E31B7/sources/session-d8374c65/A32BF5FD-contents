@@ -10,6 +10,7 @@ Depends: R (>= 4.0)
 Imports: Directional, grDevices, Rfast, rgl, stats
 Suggests: Rfast2
 Description: The Mobius transport is used to generate the Mobius-von Mises-Fisher and Mobius isotropic scaled von Mises-Fisher distributions. Functions to perform maximum likelihood estimation, random values generation and other functions are included. The relevant paper is Garcia-Portugues E. and Kato S. (2026). "Mobius transport on spheres", <doi:10.48550/arXiv.2607.29280>.
+>.
 License: GPL (>= 2)
 
 
