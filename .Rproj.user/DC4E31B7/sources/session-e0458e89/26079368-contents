@@ -9,7 +9,7 @@ Maintainer: Michail Tsagris <mtsagris@uoc.gr>
 Depends: R (>= 4.0)
 Imports: Directional, grDevices, Rfast, rgl, stats
 Suggests: Rfast2
-Description: Density evaluation, random generation, and maximum likelihood estimation for the Mobius-von Mises-Fisher and isotropic scaled von Mises-Fisher distributions on the hypersphere, introduced in Garcia-Portugues and Kato (2026) <doi:10.48550/arXiv.2607.29280>. Both distributions arise from Mobius transport of a von Mises-Fisher distribution.
+Description: Density evaluation, random generation, and maximum likelihood estimation for the Möbius-von Mises-Fisher and isotropic scaled von Mises-Fisher distributions on the hypersphere, introduced in García-Portugués and Kato (2026) <doi:10.48550/arXiv.2607.29280>. Both distributions arise from Mobius transport of a von Mises-Fisher distribution.
 License: GPL (>= 2)
 
 

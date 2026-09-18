@@ -6,10 +6,9 @@ Mobius Transport for Directional Data
 }
 
 \description{
-Density evaluation, random generation, and maximum likelihood estimation for the
-Möbius-von Mises-Fisher and isotropic scaled von Mises-Fisher distributions on the
-hypersphere, introduced in García-Portugués and Kato (2026).
-Both distributions arise from Mobius transport of a von Mises-Fisher distribution.
+The Mobius transport is used to generate the Mobius-von Mises-Fisher and Mobius
+isotropic scaled von Mises-Fisher distributions. Functions to perform maximum
+likelihood estimation, random values generation and other functions are included.
 }
 
 \details{
